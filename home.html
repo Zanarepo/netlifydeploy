@@ -2,54 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI Product Landing</title>
-  <link rel="stylesheet" href="/CSS/index.css"/>
+  <title>Home | My AI Product</title>
+  <link rel="stylesheet" href="/CSS/index.css" />
 </head>
 <body>
   <nav>
     <ul>
-      <li><a href="#" onclick="showSection('home')">Home</a></li>
-      <li><a href="#" onclick="showSection('about')">About</a></li>
-      <li><a href="#" onclick="showSection('features')">Features</a></li>
-      <li><a href="#" onclick="showSection('contact')">Contact</a></li>
+      <li><a href="#home.html" class="active">Home</a></li>
+      <li><a href="/HTML/About.html">About</a></li>
+      <li><a href="/HTML/Features.html">Features</a></li>
+      <li><a href="/HTML/Contact.html">Contact</a></li>
     </ul>
   </nav>
 
   <main>
-    <section id="home" class="active">
-      <h1>🚀 Welcome to My AI Product</h1>
-      <p>Build smarter products with AI. Deployed on Netlify.</p>
-    </section>
-
-    <section id="about">
-      <h1>About</h1>
-      <p>This product helps teams automate customer support using GPT-based chatbots.</p>
-    </section>
-
-    <section id="features">
-      <h1>Features</h1>
-      <ul>
-        <li>🔍 AI-powered search</li>
-        <li>🧠 Natural language support</li>
-        <li>📈 Real-time insights</li>
-        <li>🔐 Enterprise-grade security</li>
-      </ul>
-    </section>
-
-    <section id="contact">
-      <h1>Contact</h1>
-      <p>Reach us at <a href="mailto:hello@aiproduct.com">hello@aiproduct.com</a></p>
-    </section>
+    <h1>🚀 Welcome to My AI Product</h1>
+    <p>Build smarter products with AI. Deployed on Netlify.</p>
   </main>
-
-  <script>
-    function showSection(id) {
-      document.querySelectorAll('section').forEach(sec => {
-        sec.classList.remove('active');
-      });
-      document.getElementById(id).classList.add('active');
-    }
-  </script>
 </body>
 </html>
