@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang("en")>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Mind Map</title>
+  <script src="https://cdn.jsdelivr.net/npm/vis-network@9.1.2/dist/vis-network.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f3f4f6; }
+    #mindmap { height: 600px; border: 1px solid #d1d5db; background: white; border-radius: 8px; }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen">
+  <h1 class="text-3xl font-bold mb-4 text-gray-800">Interactive Mind Map</h1>
+  <div id="mindmap" class="w-11/12 md:w-3/4"></div>
+
+  <script>
+    // Sample data for the mind map
+    const nodes = new vis.DataSet([
+      { id: 1, label: "Project Plan", color: "#f87171", shape: "box", font: { size: 18 } },
+      { id: 2, label: "Goals", color: "#60a5fa", shape: "ellipse" },
+      { id: 3, label: "Tasks", color: "#60a5fa", shape: "ellipse" },
+      { id: 4, label: "Resources", color: "#60a5fa", shape: "ellipse" },
+      { id: 5, label: "Increase Revenue", color: "#93c5fd", shape: "circle", parent: 2 },
+      { id: 6, label: "Expand Market", color: "#93c5fd", shape: "circle", parent: 2 },
+      { id: 7, label: "Development", color: "#93c5fd", shape: "circle", parent: 3 },
+      { id: 8, label: "Testing", color: "#93c5fd", shape: "circle", parent: 3 },
+      { id: 9, label: "Budget", color: "#93c5fd", shape: "circle", parent: 4 },
+      { id: 10, label: "Team", color: "#93c5fd", shape: "circle", parent: 4 }
+    ]);
+
+    const edges = new vis.DataSet([
+      { from: 1, to: 2, color: { color: "#6b7280" } },
+      { from: 1, to: 3, color: { color: "#6b7280" } },
+      { from: 1, to: 4, color: { color: "#6b7280" } },
+      { from: 2, to: 5, color: { color: "#6b7280" } },
+      { from: 2, to: 6, color: { color: "#6b7280" } },
+      { from: 3, to: 7, color: { color: "#6b7280" } },
+      { from: 3, to: 8, color: { color: "#6b7280" } },
+      { from: 4, to: 9, color: { color: "#6b7280" } },
+      { from: 4, to: 10, color: { color: "#6b7280" } }
+    ]);
+
+    // Container and network setup
+    const container = document.getElementById("mindmap");
+    const data = { nodes: nodes, edges: edges };
+    const options = {
+      layout: { hierarchical: { direction: "UD", sortMethod: "directed" } },
+      nodes: { font: { color: "#1f2937" }, borderWidth: 2 },
+      edges: { arrows: "to", smooth: { type: "curvedCW", roundness: 0.2 } },
+      physics: false
+    };
+
+    const network = new vis.Network(container, data, options);
+
+    // Toggle child nodes on click
+    network.on("click", function(params) {
+      if (params.nodes.length > 0) {
+        const nodeId = params.nodes[0];
+        const node = nodes.get(nodeId);
+        const childNodes = nodes.get().filter(n => n.parent === nodeId);
+        
+        if (childNodes.length > 0) {
+          const areVisible = childNodes.some(n => n.hidden !== true);
+          childNodes.forEach(child => {
+            nodes.update({ id: child.id, hidden: areVisible });
+            edges.get().filter(e => e.from === nodeId || e.to === child.id).forEach(edge => {
+              edges.update({ id: edge.id, hidden: areVisible });
+            });
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>
